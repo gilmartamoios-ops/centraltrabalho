@@ -9,6 +9,9 @@ import {
   ChartNoAxesCombined,
   ExternalLink,
   Sparkles,
+  GraduationCap,
+  BookOpen,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 const ferramentas = [
@@ -17,13 +20,6 @@ const ferramentas = [
     descricao: "Organização e agenda",
     icone: CalendarDays,
     url: "https://agenda-monarca.vercel.app/",
-  },
-  {
-    nome: "Gestão de Comunidade",
-    descricao: "Gestão e relacionamento",
-    icone: Users,
-    url: "",
-    breve: true,
   },
   {
     nome: "CÍVICA",
@@ -51,6 +47,24 @@ const ferramentas = [
   },
 ];
 
+const gestaoComunidade = [
+  {
+    nome: "GA-rimpo",
+    descricao: "Garimpo de oportunidades",
+    url: "https://ga-rimpo.vercel.app/",
+  },
+  {
+    nome: "Sala do Gestor",
+    descricao: "Ambiente de gestão",
+    url: "https://sala-gestor.vercel.app/",
+  },
+  {
+    nome: "Ozonteck",
+    descricao: "Escritório de gestão",
+    url: "https://office.grupoozonteck.com/login",
+  },
+];
+
 const bsgi = [
   {
     nome: "Trilha Soka",
@@ -65,6 +79,46 @@ const bsgi = [
     url: "https://extra2.bsgi.org.br/login/?next=/comunidades/pagina/mdq9NjDOLvXrpWDQjxlQ4G8kJBARVxwg/",
   },
 ];
+
+const academico = [
+  {
+    nome: "Líbano",
+    descricao: "Portal do estudante",
+    url: "https://portal.faculdadelibano.edu.br/studentCourses",
+  },
+  {
+    nome: "O Oleiro e a Argila",
+    descricao: "Livro na Amazon",
+    url: "https://www.amazon.com.br/dp/B0HL9JZBTW",
+  },
+];
+
+function LinkCard({
+  nome,
+  descricao,
+  url,
+}: {
+  nome: string;
+  descricao?: string;
+  url: string;
+}) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-between gap-3 rounded-lg border border-[#b99753]/30 bg-[#0b1424] px-4 py-4 transition hover:border-[#d6b66e] hover:bg-[#1a2d47]"
+    >
+      <div>
+        <span className="font-medium text-white">{nome}</span>
+        {descricao && (
+          <p className="mt-1 text-xs text-slate-400">{descricao}</p>
+        )}
+      </div>
+      <ExternalLink className="h-4 w-4 shrink-0 text-[#d6b66e]" />
+    </a>
+  );
+}
 
 export default function Home() {
   return (
@@ -100,26 +154,15 @@ export default function Home() {
             return (
               <a
                 key={item.nome}
-                href={item.url || undefined}
-                target={item.url ? "_blank" : undefined}
-                rel={item.url ? "noopener noreferrer" : undefined}
-                aria-disabled={!item.url}
-                className={`group rounded-xl border border-[#b99753]/30 bg-[#14243a] p-5 transition ${
-                  item.url
-                    ? "hover:-translate-y-1 hover:border-[#d6b66e] hover:bg-[#1a2d47]"
-                    : "cursor-default opacity-70"
-                }`}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group rounded-xl border border-[#b99753]/30 bg-[#14243a] p-5 transition hover:-translate-y-1 hover:border-[#d6b66e] hover:bg-[#1a2d47]"
               >
                 <Icone className="mb-5 h-8 w-8 text-[#d6b66e]" />
                 <div className="flex items-center justify-between gap-2">
                   <h3 className="font-semibold">{item.nome}</h3>
-                  {item.url ? (
-                    <ExternalLink className="h-4 w-4 text-[#d6b66e]" />
-                  ) : (
-                    <span className="text-xs text-[#d6b66e]">
-                      Em breve
-                    </span>
-                  )}
+                  <ExternalLink className="h-4 w-4 text-[#d6b66e]" />
                 </div>
                 <p className="mt-2 text-sm text-slate-400">
                   {item.descricao}
@@ -128,6 +171,26 @@ export default function Home() {
             );
           })}
         </div>
+
+        <section className="mt-9 rounded-xl border border-[#b99753]/40 bg-[#14243a] p-5 sm:p-7">
+          <div className="flex items-center gap-3">
+            <BriefcaseBusiness className="h-8 w-8 text-[#d6b66e]" />
+            <div>
+              <h2 className="text-lg font-semibold">
+                GESTÃO DE COMUNIDADE
+              </h2>
+              <p className="text-sm text-slate-400">
+                Ambientes de gestão e operação
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {gestaoComunidade.map((item) => (
+              <LinkCard key={item.nome} {...item} />
+            ))}
+          </div>
+        </section>
 
         <section className="mt-9 rounded-xl border border-[#b99753]/40 bg-[#14243a] p-5 sm:p-7">
           <div className="flex items-center gap-3">
@@ -142,16 +205,25 @@ export default function Home() {
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
             {bsgi.map((item) => (
-              <a
-                key={item.nome}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between rounded-lg border border-[#b99753]/30 bg-[#0b1424] px-4 py-4 transition hover:border-[#d6b66e] hover:bg-[#1a2d47]"
-              >
-                <span className="font-medium">{item.nome}</span>
-                <ExternalLink className="h-4 w-4 text-[#d6b66e]" />
-              </a>
+              <LinkCard key={item.nome} {...item} />
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-9 rounded-xl border border-[#b99753]/40 bg-[#14243a] p-5 sm:p-7">
+          <div className="flex items-center gap-3">
+            <GraduationCap className="h-8 w-8 text-[#d6b66e]" />
+            <div>
+              <h2 className="text-lg font-semibold">ACADÊMICO</h2>
+              <p className="text-sm text-slate-400">
+                Formação, estudos e leitura
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {academico.map((item, index) => (
+              <LinkCard key={item.nome} {...item} />
             ))}
           </div>
         </section>
