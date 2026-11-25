@@ -1,7 +1,9 @@
 
+"use client";
+
+import { useState } from "react";
 import {
   CalendarDays,
-  Users,
   Landmark,
   Globe,
   Leaf,
@@ -10,8 +12,11 @@ import {
   ExternalLink,
   Sparkles,
   GraduationCap,
-  BookOpen,
   BriefcaseBusiness,
+  ChevronDown,
+  MessageSquare,
+  FileSpreadsheet,
+  CalendarRange,
 } from "lucide-react";
 
 const ferramentas = [
@@ -44,6 +49,29 @@ const ferramentas = [
     descricao: "Investimentos e gestão financeira",
     icone: ChartNoAxesCombined,
     url: "https://monarca-invest.vercel.app/",
+  },
+];
+
+const dadosComunidadeVerde = [
+  {
+    nome: "Fórum",
+    url: "https://www.blogger.com/blog/posts/4258667834599754763",
+    icone: MessageSquare,
+  },
+  {
+    nome: "Orçamento",
+    url: "https://docs.google.com/spreadsheets/d/13zCz_qES9awC8mFDRLETApKnrV12V3rRlJDUe_cqGKE/edit?gid=0#gid=0",
+    icone: FileSpreadsheet,
+  },
+  {
+    nome: "Câmara Municipal",
+    url: "https://docs.google.com/spreadsheets/d/1CWeGlCTuvnAKlJATU6pFkNnWPLNdw96BB2DWxYGEgp0/edit?gid=0#gid=0",
+    icone: FileSpreadsheet,
+  },
+  {
+    nome: "Agenda",
+    url: "https://calendar.google.com/calendar/u/0/r/week/2026/11/13",
+    icone: CalendarRange,
   },
 ];
 
@@ -120,6 +148,70 @@ function LinkCard({
   );
 }
 
+function ComunidadeVerdeCard() {
+  const [dadosAberto, setDadosAberto] = useState(false);
+
+  return (
+    <div className="rounded-xl border border-[#b99753]/30 bg-[#14243a] p-5 transition hover:border-[#d6b66e] hover:bg-[#1a2d47]">
+      <a
+        href="https://pvcabofrio.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block"
+      >
+        <Leaf className="mb-5 h-8 w-8 text-[#d6b66e]" />
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="font-semibold text-white">Comunidade Verde</h3>
+          <ExternalLink className="h-4 w-4 text-[#d6b66e]" />
+        </div>
+        <p className="mt-2 text-sm text-slate-400">
+          Projeto ambiental
+        </p>
+      </a>
+
+      <div className="mt-4 border-t border-[#b99753]/20 pt-3">
+        <button
+          type="button"
+          onClick={() => setDadosAberto(!dadosAberto)}
+          aria-expanded={dadosAberto}
+          className="flex w-full items-center justify-between rounded-lg border border-[#b99753]/40 bg-[#0b1424] px-4 py-3 text-sm font-semibold tracking-wide text-[#e4c987] transition hover:border-[#d6b66e] hover:bg-[#1a2d47]"
+        >
+          <span>DADOS</span>
+          <ChevronDown
+            className={`h-4 w-4 transition-transform ${
+              dadosAberto ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {dadosAberto && (
+          <div className="mt-2 grid grid-cols-1 gap-2">
+            {dadosComunidadeVerde.map((item) => {
+              const Icone = item.icone;
+
+              return (
+                <a
+                  key={item.nome}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-3 rounded-lg border border-[#b99753]/20 bg-[#101d32] px-3 py-3 text-sm text-slate-200 transition hover:border-[#d6b66e] hover:bg-[#1a2d47]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Icone className="h-4 w-4 text-[#d6b66e]" />
+                    {item.nome}
+                  </span>
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0 text-[#d6b66e]" />
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0b1424] text-white">
@@ -149,6 +241,10 @@ export default function Home() {
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ferramentas.map((item) => {
+            if (item.nome === "Comunidade Verde") {
+              return <ComunidadeVerdeCard key={item.nome} />;
+            }
+
             const Icone = item.icone;
 
             return (
@@ -222,7 +318,7 @@ export default function Home() {
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {academico.map((item, index) => (
+            {academico.map((item) => (
               <LinkCard key={item.nome} {...item} />
             ))}
           </div>
